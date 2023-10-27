@@ -27,7 +27,7 @@ Feature: Attempt (preview) a question using the self-assessment behaviour
       | questioncategory | qtype     | name                  | template | canselfrate | canselfcomment |
       | Test questions   | recordrtc | Record audio question | audio    | 1           | 1              |
     When I am on the "Record audio question" "core_question > preview" page logged in as teacher
-    And I should see "Please record yourself talking about Moodle."
+    And "Save" "button" in the "Please record yourself talking about Moodle." "question" should be visible
     And "teacher" has recorded "moodle-sharon.ogg" into the record RTC question
     And I press "Save"
     Then I should see "I hope you spoke clearly and coherently."

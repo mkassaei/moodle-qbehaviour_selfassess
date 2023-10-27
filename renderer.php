@@ -35,8 +35,15 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
         $output = $this->submit_button($qa, $options);
 
         // Bit of a hack to get the core button, with all the required setup, but just change the label.
-        $output = str_replace(html_writer::attribute('value', get_string('check', 'question')),
-                html_writer::attribute('value', get_string('saveandfeedback', 'qbehaviour_selfassess')), $output);
+        $replacements = [
+            // For before MDL-78874 was done.
+            html_writer::attribute('value', get_string('check', 'question')) =>
+                html_writer::attribute('value', get_string('saveandfeedback', 'qbehaviour_selfassess')),
+            // For after MDL-78874 was done.
+            '>' . get_string('check', 'question') . ' <span class="sr-only"' =>
+                '>' . get_string('saveandfeedback', 'qbehaviour_selfassess') . '<span class="sr-only"',
+        ];
+        $output = str_replace(array_keys($replacements), array_values($replacements), $output);
 
         return $output;
     }
