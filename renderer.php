@@ -129,9 +129,11 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
 
         if ($question->canselfrate) {
             $stars = $qa->get_last_behaviour_var('stars');
-            $output .= html_writer::div(get_string('selfassessment', 'qbehaviour_selfassess',
+            if (!empty($stars)) {
+                $output .= html_writer::div(get_string('selfassessment', 'qbehaviour_selfassess',
                     str_repeat("\u{2605}", $stars) . str_repeat("\u{2606}", self::MAX_NUMBER_OF_STARS - $stars)),
                     'self-assessment');
+            }
         }
 
         if ($question->canselfcomment) {
