@@ -29,16 +29,16 @@ Feature: Attempt (preview) a question using the self-assessment behaviour
     When I am on the "Record audio question" "core_question > preview" page logged in as teacher
     And "Save" "button" in the "Please record yourself talking about Moodle." "question" should be visible
     And "teacher" has recorded "moodle-sharon.ogg" into the record RTC question
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     Then I should see "I hope you spoke clearly and coherently."
     And I should see "Submit: recording.ogg"
     And I click on "Rated 2 stars" "icon"
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     And I should see "Self-assessed 2 stars with no comment"
     And I click on "Rated 5 stars" "icon"
     And I set the following fields to these values:
       | Comment | Seems OK to me. |
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     And I should see "Self-assessed 5 stars with comment: Seems OK to me."
 
   @javascript
@@ -48,13 +48,13 @@ Feature: Attempt (preview) a question using the self-assessment behaviour
       | Test questions   | recordrtc | Record audio question | audio    | 0           | 1              |
     When I am on the "Record audio question" "core_question > preview" page logged in as teacher
     And "teacher" has recorded "moodle-sharon.ogg" into the record RTC question
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     Then I should see "I hope you spoke clearly and coherently."
     And I should see "Submit: recording.ogg"
     And I should not see "Rating"
     And I set the following fields to these values:
       | Comment | Seems OK to me. |
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     And I should see "Commented: Seems OK to me."
 
   @javascript
@@ -65,12 +65,12 @@ Feature: Attempt (preview) a question using the self-assessment behaviour
     When I am on the "Record audio question" "core_question > preview" page logged in as teacher
     And I should see "Please record yourself talking about Moodle."
     And "teacher" has recorded "moodle-sharon.ogg" into the record RTC question
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     Then I should see "I hope you spoke clearly and coherently."
     And I should not see "Comment" in the "div.self-assessment" "css_element"
     And I should see "Submit: recording.ogg"
     And I click on "Rated 2 stars" "icon"
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     And I should see "Self-assessed 2 stars with no comment"
 
   @javascript
@@ -80,7 +80,7 @@ Feature: Attempt (preview) a question using the self-assessment behaviour
       | Test questions   | recordrtc | Record audio question | audio    | 0           | 0              |
     When I am on the "Record audio question" "core_question > preview" page logged in as teacher
     And "teacher" has recorded "moodle-sharon.ogg" into the record RTC question
-    And I press "Save"
+    And I click on "Save" "button" in the "Please record yourself talking about Moodle." "question"
     Then I should see "I hope you spoke clearly and coherently."
     And I should not see "Rating"
     And I should not see "Comment" in the "div.selfassess" "css_element"

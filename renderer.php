@@ -42,6 +42,8 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
             // For after MDL-78874 was done.
             '>' . get_string('check', 'question') . ' <span class="sr-only"' =>
                 '>' . get_string('saveandfeedback', 'qbehaviour_selfassess') . '<span class="sr-only"',
+            '>' . get_string('check', 'question') . '</button>' =>
+                '>' . get_string('saveandfeedback', 'qbehaviour_selfassess') . '</button>',
         ];
         $output = str_replace(array_keys($replacements), array_values($replacements), $output);
 
