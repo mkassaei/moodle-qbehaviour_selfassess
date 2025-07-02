@@ -29,10 +29,12 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
     /** @var int special value for $options->readonly for when in the self-assess state. */
     const READONLY_EXCEPT_SELFASSESS = 0x10;
 
+    #[\Override]
     public function is_compatible_question(question_definition $question): bool {
         return $question instanceof question_with_responses;
     }
 
+    #[\Override]
     public function adjust_display_options(question_display_options $options): void {
         global $USER;
         $originalreadonly = $options->readonly;
@@ -44,6 +46,7 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         }
     }
 
+    #[\Override]
     public function get_expected_data(): array {
         $expecteddata = parent::get_expected_data();
 
@@ -57,6 +60,7 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         return $expecteddata;
     }
 
+    #[\Override]
     public function process_action(question_attempt_pending_step $pendingstep): bool {
         if ($pendingstep->has_behaviour_var('submit')) {
             return $this->process_submit($pendingstep);
@@ -72,6 +76,7 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         }
     }
 
+    #[\Override]
     public function process_save(question_attempt_pending_step $pendingstep): bool {
         $status = parent::process_save($pendingstep);
         if ($status == question_attempt::KEEP &&
@@ -81,6 +86,12 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         return $status;
     }
 
+    /**
+     * Processes the submit action for a question attempt.
+     *
+     * @param question_attempt_pending_step $pendingstep Contains the new responses.
+     * @return bool Either {@see question_attempt::KEEP} or {@see question_attempt::DISCARD}.
+     */
     public function process_submit(question_attempt_pending_step $pendingstep): bool {
         if ($this->qa->get_state()->is_finished()) {
             return question_attempt::DISCARD;
@@ -94,6 +105,12 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         return $this->process_finish($pendingstep);
     }
 
+    /**
+     * Processes the finish action for a question attempt.
+     *
+     * @param question_attempt_pending_step $pendingstep Contains the new responses.
+     * @return bool Either {@see question_attempt::KEEP} or {@see question_attempt::DISCARD}.
+     */
     public function process_finish(question_attempt_pending_step $pendingstep): bool {
         if ($this->qa->get_state()->is_finished()) {
             return question_attempt::DISCARD;
@@ -109,6 +126,13 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         return question_attempt::KEEP;
     }
 
+    /**
+     * Processes a self-assessment action performed by the student.
+     *
+     * @param question_attempt_pending_step $pendingstep contains the new responses.
+     * @return bool Either {@see question_attempt::KEEP} or {@see question_attempt::DISCARD}
+     * @throws coding_exception If the question is not finished or the star rating is invalid.
+     */
     public function process_self_assess(question_attempt_pending_step $pendingstep): bool {
         if (!$this->qa->get_state()->is_finished()) {
             throw new coding_exception('Cannot self-assess a question before it is finished.');
@@ -161,6 +185,7 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
         return (int) $previousstars === (int) $newstars;
     }
 
+    #[\Override]
     public function summarise_action(question_attempt_step $step) {
         if ($step->has_behaviour_var('submit')) {
             return $this->summarise_submit($step);

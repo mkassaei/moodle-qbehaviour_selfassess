@@ -36,7 +36,7 @@ require_once(__DIR__ . '/../../../type/recordrtc/tests/walkthrough_test.php');
  * @covers    \qbehaviour_selfassess
  * @covers    \qbehaviour_selfassess_renderer
  */
-class walkthrough_test extends \qbehaviour_walkthrough_test_base {
+final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
 
     /**
      * Helper to get the qa of the qusetion being attempted.
@@ -102,7 +102,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
                 $this->currentoutput);
     }
 
-    public function test_selfassess_audio() {
+    public function test_selfassess_audio(): void {
         global $PAGE;
 
         $this->resetAfterTest();
@@ -161,7 +161,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(3);
     }
 
-    public function test_selfassess_audio_no_comment() {
+    public function test_selfassess_audio_no_comment(): void {
         global $PAGE;
 
         $this->resetAfterTest();
@@ -220,7 +220,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(3);
     }
 
-    public function test_selfassess_no_audio() {
+    public function test_selfassess_no_audio(): void {
         global $PAGE;
 
         $this->resetAfterTest();
@@ -282,7 +282,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
                 $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
     }
 
-    public function test_selfassess_comment_no_rating() {
+    public function test_selfassess_comment_no_rating(): void {
         global $PAGE;
 
         $this->resetAfterTest();
@@ -336,7 +336,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(3);
     }
 
-    public function test_selfassess_without_clicking_button() {
+    public function test_selfassess_without_clicking_button(): void {
         // This test simulates what happens if the student inputs a rating and/or a comment,
         // without clicking the 'Save' button, but instead just going to the next page of the quiz.
         // That should be treatd as if they did click the button.
@@ -408,7 +408,7 @@ class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(3);
     }
 
-    public function test_selfassess_no_feedback() {
+    public function test_selfassess_no_feedback(): void {
         global $PAGE;
 
         $this->resetAfterTest();

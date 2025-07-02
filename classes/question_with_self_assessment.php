@@ -20,6 +20,10 @@ namespace qbehaviour_selfassess;
  * Question that want to work with self-assess behaviour should use this trait in their question class.
  *
  * It declares the two fields that must exist.
+ *
+ * @package   qbehaviour_selfassess
+ * @copyright 2022 The Open University
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 trait question_with_self_assessment {
 

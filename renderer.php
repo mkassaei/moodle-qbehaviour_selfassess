@@ -31,6 +31,7 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
      */
     const MAX_NUMBER_OF_STARS = 5;
 
+    #[\Override]
     public function controls(question_attempt $qa, question_display_options $options): string {
         $output = $this->submit_button($qa, $options);
 
@@ -50,6 +51,7 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
         return $output;
     }
 
+    #[\Override]
     public function feedback(question_attempt $qa, question_display_options $options): string {
         if (!$qa->get_state()->is_finished()) {
             return '';
@@ -111,7 +113,7 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
             $output .= html_writer::empty_tag('input', $attributes);
 
             $this->page->requires->js_init_call('M.core_question_engine.init_submit_button',
-                    array($attributes['id'], $qa->get_slot()));
+                    [$attributes['id'], $qa->get_slot()]);
         }
 
         return $output;
