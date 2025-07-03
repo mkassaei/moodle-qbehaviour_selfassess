@@ -40,6 +40,9 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
             // For before MDL-78874 was done.
             html_writer::attribute('value', get_string('check', 'question')) =>
                 html_writer::attribute('value', get_string('saveandfeedback', 'qbehaviour_selfassess')),
+            // For after MDL-81825 was done. Bootstrap 5 uses 'visually-hidden' instead of 'sr-only'.
+            '>' . get_string('check', 'question') . ' <span class="visually-hidden"' =>
+                '>' . get_string('saveandfeedback', 'qbehaviour_selfassess') . '<span class="visually-hidden"',
             // For after MDL-78874 was done.
             '>' . get_string('check', 'question') . ' <span class="sr-only"' =>
                 '>' . get_string('saveandfeedback', 'qbehaviour_selfassess') . '<span class="sr-only"',
