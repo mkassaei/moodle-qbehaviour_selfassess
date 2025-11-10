@@ -79,8 +79,7 @@ class qbehaviour_selfassess extends question_behaviour_with_save {
     #[\Override]
     public function process_save(question_attempt_pending_step $pendingstep): bool {
         $status = parent::process_save($pendingstep);
-        if ($status == question_attempt::KEEP &&
-                $pendingstep->get_state() == question_state::$complete) {
+        if ($status == question_attempt::KEEP && $pendingstep->get_state() == question_state::$complete) {
             $pendingstep->set_state(question_state::$todo);
         }
         return $status;

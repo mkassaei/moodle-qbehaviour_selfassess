@@ -37,7 +37,6 @@ require_once(__DIR__ . '/../../../type/recordrtc/tests/walkthrough_test.php');
  * @covers    \qbehaviour_selfassess_renderer
  */
 final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
-
     /**
      * Helper to get the qa of the qusetion being attempted.
      *
@@ -55,11 +54,12 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
      * @return array response data that would need to be passed to $this->process_submission().
      */
     protected function store_submission_file(
-            string $fixturefile, string $filename = 'recording.ogg'): array {
+        string $fixturefile,
+        string $filename = 'recording.ogg'
+    ): array {
         $response = $this->setup_empty_submission_fileares();
         qtype_recordrtc_test_helper::clear_draft_area($response['recording']);
-        qtype_recordrtc_test_helper::add_recording_to_draft_area(
-                $response['recording'], $fixturefile, $filename);
+        qtype_recordrtc_test_helper::add_recording_to_draft_area($response['recording'], $fixturefile, $filename);
         return $response;
     }
 
@@ -70,8 +70,17 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
      */
     protected function setup_empty_submission_fileares(): array {
         $this->render();
-        if (!preg_match('/name="' . preg_quote($this->get_qa()->get_qt_field_name('recording')) .
-                '" value="(\d+)"/', $this->currentoutput, $matches)) {
+        if (
+            !preg_match(
+                '/name="' . preg_quote(
+                    $this->get_qa()->get_qt_field_name(
+                        'recording'
+                    )
+                ) . '" value="(\d+)"/',
+                $this->currentoutput,
+                $matches
+            )
+        ) {
             throw new \coding_exception('Draft item id not found.');
         }
         return ['recording' => $matches[1]];
@@ -98,8 +107,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
      * @param int $rating the rating that should be selected.
      */
     protected function assert_selected_rating_is(int $rating): void {
-        $this->assertStringContainsString('checked="checked" class="accesshide" value="' . $rating . '">',
-                $this->currentoutput);
+        $this->assertStringContainsString(
+            'checked="checked" class="accesshide" value="' . $rating . '">',
+            $this->currentoutput
+        );
     }
 
     public function test_selfassess_audio(): void {
@@ -113,8 +124,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -149,8 +163,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->render();
         $this->assert_contains_star_rating_ui();
         $this->assert_selected_rating_is(4);
-        $this->assertEquals('Self-assessed 4 stars with comment: Sounds OK',
-                $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
+        $this->assertEquals(
+            'Self-assessed 4 stars with comment: Sounds OK',
+            $this->get_qa()->summarise_action($this->get_qa()->get_last_step())
+        );
 
         // Re-submitting the same self-assessment should not change the grade.
         $this->process_submission(['-selfcomment' => 'Sounds OK',
@@ -172,8 +188,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -208,8 +227,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->render();
         $this->assert_contains_star_rating_ui();
         $this->assert_selected_rating_is(4);
-        $this->assertEquals('Self-assessed 4 stars with no comment',
-                $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
+        $this->assertEquals(
+            'Self-assessed 4 stars with no comment',
+            $this->get_qa()->summarise_action($this->get_qa()->get_last_step())
+        );
 
         // Re-submitting the same self-assessment should not change the grade.
         $this->process_submission(['-selfcomment' => '',
@@ -231,8 +252,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -255,8 +279,7 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(2);
         $this->render();
         $this->assert_does_not_contain_star_rating_ui();
-        $this->assertStringContainsString('Please complete your answer.',
-                $this->currentoutput);
+        $this->assertStringContainsString('Please complete your answer.', $this->currentoutput);
 
         // Submit all and finish even though not submission was made. Verify you can still self-grade.
         $this->finish();
@@ -278,8 +301,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->render();
         $this->assert_contains_star_rating_ui();
         $this->assert_selected_rating_is(4);
-        $this->assertEquals('Self-assessed 4 stars with no comment',
-                $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
+        $this->assertEquals(
+            'Self-assessed 4 stars with no comment',
+            $this->get_qa()->summarise_action($this->get_qa()->get_last_step())
+        );
     }
 
     public function test_selfassess_comment_no_rating(): void {
@@ -293,8 +318,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'canselfrate' => 0, 'canselfcomment' => 1]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'canselfrate' => 0, 'canselfcomment' => 1]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -326,8 +354,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->check_step_count(3);
         $this->render();
         $this->assert_does_not_contain_star_rating_ui();
-        $this->assertEquals('Commented: Sounds OK',
-                $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
+        $this->assertEquals(
+            'Commented: Sounds OK',
+            $this->get_qa()->summarise_action($this->get_qa()->get_last_step())
+        );
 
         // Re-submitting the same self-assessment should not change the grade.
         $this->process_submission(['-selfcomment' => 'Sounds OK', '-rate' => '1']);
@@ -350,8 +380,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'canselfrate' => 1, 'canselfcomment' => 1]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);
@@ -397,8 +430,10 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         $this->render();
         $this->assert_contains_star_rating_ui();
         $this->assert_selected_rating_is(3);
-        $this->assertEquals('Self-assessed 3 stars with comment: Seems OK',
-                $this->get_qa()->summarise_action($this->get_qa()->get_last_step()));
+        $this->assertEquals(
+            'Self-assessed 3 stars with comment: Seems OK',
+            $this->get_qa()->summarise_action($this->get_qa()->get_last_step())
+        );
 
         // Re-submitting the same self-assessment should not change the grade.
         $this->process_submission(['-selfcomment' => 'Seems OK', '-stars' => '3']);
@@ -419,9 +454,11 @@ final class walkthrough_test extends \qbehaviour_walkthrough_test_base {
         /** @var \core_question_generator $generator */
         $generator = $this->getDataGenerator()->get_plugin_generator('core_question');
         $cat = $generator->create_question_category();
-        $question = $generator->create_question('recordrtc', 'audio',
-                ['category' => $cat->id, 'generalfeedback' => '',
-                        'canselfrate' => 0, 'canselfcomment' => 0]);
+        $question = $generator->create_question(
+            'recordrtc',
+            'audio',
+            ['category' => $cat->id, 'generalfeedback' => '', 'canselfrate' => 0, 'canselfcomment' => 0]
+        );
 
         // Start attempt at the question.
         $q = question_bank::load_question($question->id);

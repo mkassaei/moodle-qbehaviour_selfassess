@@ -22,7 +22,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qbehaviour_selfassess_type extends question_behaviour_type {
-
     #[\Override]
     public function can_questions_finish_during_the_attempt(): bool {
         return true;

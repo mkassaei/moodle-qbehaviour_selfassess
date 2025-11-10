@@ -1,5 +1,12 @@
 # Change log for the Self-assessment question behaviour
 
+## Changes in 1.5
+
+* This version supports Moodle 4.5+ and Moodle 5 stable.
+* Fixed the coding style to the Moodle 5 stable coding style.
+* This version supports PHP 8.3. and PHP 8.2.
+
+
 ## Changes in 1.4
 
 * Now supports explicit options for whether students can rate and/or comment their work.

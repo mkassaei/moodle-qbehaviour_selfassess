@@ -26,7 +26,6 @@ namespace qbehaviour_selfassess;
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 trait question_with_self_assessment {
-
     /**
      * @var bool whether the students can self rate their own response.
      */

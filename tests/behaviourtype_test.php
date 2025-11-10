@@ -34,7 +34,6 @@ require_once(__DIR__ . '/../../../engine/tests/helpers.php');
  * @covers    \qbehaviour_selfassess_type
  */
 final class behaviourtype_test extends \basic_testcase {
-
     /** @var qbehaviour_selfassess_type the behaviour type */
     protected $behaviourtype;
 

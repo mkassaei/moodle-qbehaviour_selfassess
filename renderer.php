@@ -24,7 +24,6 @@ use qbehaviour_selfassess\question_with_self_assessment;
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
-
     /**
      * The number of stars to be displayed for rating.
      * The displayed stars are internally numbered as 1 to n(this constant) from left to right.
@@ -87,21 +86,50 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
             $name = $qa->get_behaviour_field_name('stars');
             $starratinghtml = $this->star_rating_select($qa, $name, (int) $stars);
             $output .= html_writer::div(
-                    html_writer::tag('label', get_string('rateyourself', 'qbehaviour_selfassess'), ['for' => $name]) .
-                    ' ' . $this->help_icon('rateyourself', 'qbehaviour_selfassess') . ' ' .
-                    html_writer::tag('span', $starratinghtml, ['class' => 'rating']), 'self-assessment-rating');
+                html_writer::tag(
+                    'label',
+                    get_string(
+                        'rateyourself',
+                        'qbehaviour_selfassess'
+                    ),
+                    ['for' => $name]
+                ) . ' ' . $this->help_icon(
+                    'rateyourself',
+                    'qbehaviour_selfassess'
+                ) . ' ' . html_writer::tag(
+                    'span',
+                    $starratinghtml,
+                    ['class' => 'rating']
+                ),
+                'self-assessment-rating',
+            );
         }
 
         // Editor for the comment.
         if ($question->canselfcomment) {
-            list($comment) = $this->get_last_self_comment($qa);
+            [$comment] = $this->get_last_self_comment($qa);
             $inputname = $qa->get_behaviour_field_name('selfcomment');
 
             $output .= html_writer::div(
-                    html_writer::tag('label', get_string('comment', 'question'), ['for' => $inputname]) .
-                    ' ' . html_writer::tag('textarea', s($comment),
-                            ['id' => $inputname, 'name' => $inputname, 'rows' => 2, 'cols' => 60]),
-                    'self-assess-comment');
+                html_writer::tag(
+                    'label',
+                    get_string(
+                        'comment',
+                        'question'
+                    ),
+                    ['for' => $inputname]
+                ) . ' ' . html_writer::tag(
+                    'textarea',
+                    s($comment),
+                    [
+                        'id' => $inputname,
+                        'name' => $inputname,
+                        'rows' => 2,
+                        'cols' => 60,
+                    ],
+                ),
+                'self-assess-comment',
+            );
         }
 
         if ($question->canselfrate || $question->canselfcomment) {
@@ -115,10 +143,14 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
             ];
             $output .= html_writer::empty_tag('input', $attributes);
 
-            $this->page->requires->js_init_call('M.core_question_engine.init_submit_button',
-                    [$attributes['id'], $qa->get_slot()]);
+            $this->page->requires->js_init_call(
+                'M.core_question_engine.init_submit_button',
+                [
+                    $attributes['id'],
+                    $qa->get_slot(),
+                ]
+            );
         }
-
         return $output;
     }
 
@@ -137,21 +169,41 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
         if ($question->canselfrate) {
             $stars = $qa->get_last_behaviour_var('stars');
             if (!empty($stars)) {
-                $output .= html_writer::div(get_string('selfassessment', 'qbehaviour_selfassess',
-                    str_repeat("\u{2605}", $stars) . str_repeat("\u{2606}", self::MAX_NUMBER_OF_STARS - $stars)),
-                    'self-assessment');
+                $output .= html_writer::div(
+                    get_string(
+                        'selfassessment',
+                        'qbehaviour_selfassess',
+                        str_repeat(
+                            "\u{2605}",
+                            $stars
+                        ) .
+                        str_repeat(
+                            "\u{2606}",
+                            self::MAX_NUMBER_OF_STARS - $stars
+                        )
+                    ),
+                    'self-assessment'
+                );
             }
         }
 
         if ($question->canselfcomment) {
-            list($comment, $commentformat) = $this->get_last_self_comment($qa);
+            [$comment, $commentformat] = $this->get_last_self_comment($qa);
             if ($comment !== null) {
-                $output .= html_writer::div(get_string('commentx', 'question',
-                        format_text($comment, $commentformat, ['context' => $options->context])),
-                        'self-comment');
+                $output .= html_writer::div(
+                    get_string(
+                        'commentx',
+                        'question',
+                        format_text(
+                            $comment,
+                            $commentformat,
+                            ['context' => $options->context]
+                        ),
+                    ),
+                    'self-comment'
+                );
             }
         }
-
         return $output;
     }
 
@@ -206,8 +258,11 @@ class qbehaviour_selfassess_renderer extends qbehaviour_renderer {
         // Add a button for clear rating after the stars to be displayed in the same line.
         $output .= '<input type="button" name="clearbutton" value="' .
                 get_string('clear') . '" class="clearrating">';
-        $this->page->requires->js_call_amd('qbehaviour_selfassess/rating', 'init',
-                [$qa->get_outer_question_div_unique_id()]);
+        $this->page->requires->js_call_amd(
+            'qbehaviour_selfassess/rating',
+            'init',
+            [$qa->get_outer_question_div_unique_id()]
+        );
         return $output;
     }
 }
